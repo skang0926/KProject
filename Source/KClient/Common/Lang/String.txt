@@ -1,0 +1,13 @@
+NONE							None
+PATH_MESH_SPHERE				/Engine/BasicShapes/Sphere
+PATH_MESH_PLAYER				/Game/Characters/Player/Meshes/Gadget
+PATH_ANIM_PLAYER				/Game/Characters/Player/Player_AnimBlueprint
+PATH_MESH_GUNMAN				/Game/Characters/Monster/NormalMonster/Gunman/Heroes/TwinBlast/Meshes/TwinBlast_ShadowOps
+PATH_ANIM_GUNMAN				/Game/Characters/Monster/NormalMonster/Gunman/Heroes/TwinBlast/Animations/GunmanAnimBP
+PATH_BB_NORMAL_MONSTER			/Game/Characters/Monster/NormalMonster/AI/BB_NormalMonster
+PATH_BT_NORMAL_MONSTER			/Game/Characters/Monster/NormalMonster/AI/BT_NormalMonster
+PATH_DATA_CHARACTER_TABLE		/Game/Characters/CharacterTable
+PATH_DATA_SKILL_TABLE			/Game/Skills/SkillTable
+PATH_DATA_MONSTERSTAT_TABLE		/Game/Characters/Monster/MonsterStatTable.MonsterStatTable
+PATH_DATA_CHARACTER_STAT_TABLE	/Game/Characters/Player/CharacterStatTable
+PATH_DIR_SKILL_DATA				/Game/Skills/Data/
