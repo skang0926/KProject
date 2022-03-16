@@ -9,6 +9,7 @@
 /**
  * 
  */
+
 struct FBTAttackNodeMemory
 {
 	int32 attackCount;
@@ -16,7 +17,7 @@ struct FBTAttackNodeMemory
 	ESkillType skillType;
 	class AMonsterBase* ownerMonster;
 	class UBehaviorTreeComponent* ownerComponent;
-	FTimerHandle* timerHandle;
+	FTimerHandle timerHandle;
 };
 
 UCLASS()
