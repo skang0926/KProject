@@ -26,7 +26,7 @@ public:
 	void Free(void* memory);
 
 private:
-	FNodeMemory64* memoryPool;
+	FNodeMemory64* memoryPool = nullptr;
 
 	//Key : memory's index in memory pool, Value : arrIndex
 	TMap<int32, int32> indexTable;

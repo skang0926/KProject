@@ -17,6 +17,7 @@ AMonsterBase::AMonsterBase()
 	monsterStatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("Stat"));
 
 	characterName = TEXT("Gunman");
+	bAllowInitialize = false;
 	AutoPossessAI = EAutoPossessAI::Disabled;
 }
 
@@ -37,6 +38,8 @@ void AMonsterBase::UseSkill(ESkillType skillType)
 
 void AMonsterBase::BeginPlay()
 {
+	if (!bAllowInitialize) return;
+
 	Super::BeginPlay();
 	monsterStatComponent->Initialize(characterName);
 	GetCharacterMovement()->MaxWalkSpeed = monsterStatComponent->GetMonsterStat().MoveSpeed;
@@ -44,6 +47,13 @@ void AMonsterBase::BeginPlay()
 	AIControllerClass = AMonsterAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	SpawnDefaultController();
+}
+
+void AMonsterBase::Initialize(const FName name)
+{
+	characterName = name;
+	bAllowInitialize = true;
+	BeginPlay();
 }
 
 int32 AMonsterBase::GetBaseDamage() const

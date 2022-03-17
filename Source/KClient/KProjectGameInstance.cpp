@@ -5,6 +5,7 @@
 #include "SkillBase.h"
 #include "CharacterDataTable.h"
 #include "MonsterStatComponent.h"
+#include "LevelManager.h"
 
 UKProjectGameInstance::UKProjectGameInstance()
 {
@@ -40,3 +41,14 @@ const FMonsterStat* const UKProjectGameInstance::GetMonsterStatTableRow(const FN
 {
 	return monsterStatTable->FindRow<FMonsterStat>(monsterName, FString(), false);
 }
+
+void UKProjectGameInstance::SetLevelManager(ALevelManager* levelManager)
+{
+	pLevelManager = levelManager;
+}
+
+const ALevelManager* const UKProjectGameInstance::GetLevelManager()
+{
+	return pLevelManager;
+}
+

@@ -22,6 +22,7 @@ public:
 
 	virtual int32 GetBaseDamage() const override;
 	void SetLockOnComponent(class ACharacterBase* otherCharacter);
+	void Initialize(const FName characterName);
 
 protected:
 	virtual void Tick(float DeltaTime) override;
@@ -37,5 +38,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	class UMonsterStatComponent* monsterStatComponent;
+
+	UPROPERTY(EditAnywhere)
+	bool bAllowInitialize;
 };
 

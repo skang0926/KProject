@@ -33,6 +33,7 @@ MemoryPool::MemoryPool()
 
 MemoryPool::~MemoryPool()
 {
+	UE_LOG(LogClass, Warning, TEXT("Destruction Test"));
 	if (memoryPool != nullptr)
 		delete[] memoryPool;
 }

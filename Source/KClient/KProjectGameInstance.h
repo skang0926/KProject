@@ -19,8 +19,11 @@ public:
 	const struct FCharacterTable* const GetCharacterTableRow(const FName& characterName);
 	const struct FSkillProperty* const GetSkillTableRow(const FName& skillName);
 	const struct FMonsterStat* const GetMonsterStatTableRow(const FName& monsterName);
+	const class ALevelManager* const GetLevelManager();
+	void SetLevelManager(ALevelManager* levelManager);
 private:
 	const UDataTable* characterTable = nullptr;
 	const UDataTable* skillPropertyTable = nullptr;
 	const UDataTable* monsterStatTable = nullptr;
+	class ALevelManager* pLevelManager = nullptr;
 };
