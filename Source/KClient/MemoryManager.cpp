@@ -14,6 +14,12 @@ void UMemoryManager::Initialize(int32 memoryPoolSize)
 }
 
 
+MemoryPool* UMemoryManager::GetMemoryPool()
+{
+	return &memoryPool;
+}
+
+
 
 /////////////////////////////////////////////////// MemoryPool Func
 

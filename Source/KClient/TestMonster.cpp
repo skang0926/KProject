@@ -5,13 +5,24 @@
 
 ATestMonster::ATestMonster()
 {
-
+	characterName = TEXT("TestMonster");
 }
 
 void ATestMonster::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+void ATestMonster::MoveForward(const float value)
+{
+	Super::MoveForward(value);
+}
+
+void ATestMonster::MoveSide(const float value)
+{
+	Super::MoveSide(value);
+}
+
 
 void ATestMonster::Tick(float deltaTime)
 {

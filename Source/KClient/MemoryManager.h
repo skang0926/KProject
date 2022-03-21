@@ -45,6 +45,7 @@ class KCLIENT_API UMemoryManager : public UObject
 public:
 	UMemoryManager();
 	void Initialize(int32 memoryPoolSize);
+	MemoryPool* GetMemoryPool();
 
 private:
 	MemoryPool memoryPool;

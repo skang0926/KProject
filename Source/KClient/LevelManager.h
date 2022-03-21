@@ -22,11 +22,13 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void GetMemoryManager() const;
+	class UMemoryManager* GetMemoryManager() const;
 
 private:
 	void SpawnMonster();
 private:
+
+	UPROPERTY()
 	class UMemoryManager* memoryManager;
 
 

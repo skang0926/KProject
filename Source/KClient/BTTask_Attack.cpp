@@ -36,8 +36,9 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& ownerCom
 	}
 
 	AMonsterAIController* ownerController = dynamic_cast<AMonsterAIController*>(ownerMonster->GetController());
+
 	FBTAttackNodeMemory* memory = new FBTAttackNodeMemory;
-	
+
 	FTimerDelegate timerDelegate(FTimerDelegate::CreateUObject
 		<UBTTask_Attack, FBTAttackNodeMemory*>
 		(this, &UBTTask_Attack::TimerTask, memory));
@@ -47,7 +48,6 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& ownerCom
 	memory->skillType = skillType;
 	memory->ownerMonster = ownerMonster;
 	memory->ownerComponent = &ownerComp;
-
 
 	float coolTime = attkSkill->GetCommonProperty().cooldown;
 
@@ -59,7 +59,7 @@ void UBTTask_Attack::TimerTask(FBTAttackNodeMemory* memory)
 {
 	if (memory->curAttackCount >= memory->attackCount)
 	{
-		memory->ownerMonster->GetWorldTimerManager().ClearTimer(memory->timerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(memory->timerHandle);
 		FinishLatentTask(*(memory->ownerComponent), EBTNodeResult::Succeeded);
 		delete memory;
 		return;

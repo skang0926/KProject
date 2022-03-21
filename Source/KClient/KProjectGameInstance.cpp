@@ -42,8 +42,11 @@ const FMonsterStat* const UKProjectGameInstance::GetMonsterStatTableRow(const FN
 	return monsterStatTable->FindRow<FMonsterStat>(monsterName, FString(), false);
 }
 
-void UKProjectGameInstance::SetLevelManager(ALevelManager* levelManager)
+void UKProjectGameInstance::SetLevelManager(ALevelManager* const levelManager)
 {
+	if (levelManager == nullptr)
+		return;
+
 	pLevelManager = levelManager;
 }
 

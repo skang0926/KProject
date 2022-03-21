@@ -16,6 +16,9 @@ class KCLIENT_API ATestMonster : public AMonsterBase
 public:
 	ATestMonster();
 
+	virtual void MoveForward(const float value);
+	virtual void MoveSide(const float value);
+
 protected:
 	virtual void Tick(float deltaTime) final;
 	virtual void BeginPlay() final;
