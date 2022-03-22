@@ -38,4 +38,7 @@ private:
 private:
 	UPROPERTY(EditAnywhere)
 	float defaultTaskTime;
+
+	UPROPERTY(EditAnywhere)
+		bool bMemoryPoolUse;
 };

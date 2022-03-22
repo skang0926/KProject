@@ -37,7 +37,7 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& ownerCom
 
 	AMonsterAIController* ownerController = dynamic_cast<AMonsterAIController*>(ownerMonster->GetController());
 
-	FBTAttackNodeMemory* memory = new FBTAttackNodeMemory;
+	FBTAttackNodeMemory* memory = reinterpret_cast<FBTAttackNodeMemory*>(MEMORY_POOL_64()->Alloc());
 
 	FTimerDelegate timerDelegate(FTimerDelegate::CreateUObject
 		<UBTTask_Attack, FBTAttackNodeMemory*>
@@ -61,7 +61,7 @@ void UBTTask_Attack::TimerTask(FBTAttackNodeMemory* memory)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(memory->timerHandle);
 		FinishLatentTask(*(memory->ownerComponent), EBTNodeResult::Succeeded);
-		delete memory;
+		MEMORY_POOL_64()->Free(memory);
 		return;
 	}
 

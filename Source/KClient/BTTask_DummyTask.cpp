@@ -13,7 +13,8 @@ UBTTask_DummyTask::UBTTask_DummyTask()
 {
 	NodeName = TEXT("DummyTask");
 	defaultTaskTime = 5.0f;
-	bNotifyTick = true;
+	bNotifyTick = false;
+	bMemoryPoolUse = true;
 }
 
 EBTNodeResult::Type UBTTask_DummyTask::ExecuteTask(UBehaviorTreeComponent& ownerComp, uint8* nodeMemory)
@@ -24,8 +25,13 @@ EBTNodeResult::Type UBTTask_DummyTask::ExecuteTask(UBehaviorTreeComponent& owner
 		return EBTNodeResult::Failed;
 	}
 
-//	FBTDummyNode* memory = new FBTDummyNode;
-	FBTDummyNode* memory = reinterpret_cast<FBTDummyNode*>(MEMORY64_POOL()->Alloc());
+	FBTDummyNode* memory;
+
+	if(bMemoryPoolUse)
+		memory = reinterpret_cast<FBTDummyNode*>(MEMORY_POOL_64()->Alloc());
+	else
+		memory = new FBTDummyNode;
+
 	memory->fowardMoveValue = (rand() % 3) - 1;
 	memory->rightMoveValue = (rand() % 3) - 1;
 	memory->remainTime = defaultTaskTime + (rand() % 3) - 1;
@@ -55,8 +61,16 @@ void UBTTask_DummyTask::TickTimerTask(FBTDummyNode* memory)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(memory->timerHandle);
 		FinishLatentTask(*(memory->ownerComponent), EBTNodeResult::Succeeded);
-//		delete memory;
-		MEMORY64_POOL()->Free(memory);
+
+		if (bMemoryPoolUse)
+		{
+			MEMORY_POOL_64()->Free(memory);
+		}
+		else
+		{
+			delete memory;
+		}
+
 		return;
 	}
 

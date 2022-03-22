@@ -13,6 +13,7 @@ ALevelManager::ALevelManager()
 	PrimaryActorTick.bCanEverTick = false;
 	monsterMax = 300;
 	monsterNum = 0;
+	bMemoryPoolTest = false;
 }
 
 // Called when the game starts or when spawned
@@ -27,7 +28,9 @@ void ALevelManager::BeginPlay()
 
 	GAME_INSTANCE()->SetLevelManager(this);
 
-	GetWorldTimerManager().SetTimer(timer, this, &ALevelManager::SpawnMonster, 1.f, true, 0.1f);
+
+	if(bMemoryPoolTest)
+		GetWorldTimerManager().SetTimer(timer, this, &ALevelManager::SpawnMonster, 1.f, true, 0.1f);
 }
 
 void ALevelManager::SpawnMonster()

@@ -5,10 +5,11 @@
 #include "KClient.h"
 #include "Engine/GameInstance.h"
 #include "Engine/DataTable.h"
+#include "LevelManager.h"
 #include "KProjectGameInstance.generated.h"
 
 #define GAME_INSTANCE() ( dynamic_cast<UKProjectGameInstance*>( this->GetWorld()->GetGameInstance() ) )
-#define MEMORY64_POOL() ( GAME_INSTANCE()->GetLevelManager()->GetMemoryManager()->GetMemoryPool() )
+#define MEMORY_POOL_64() ( GAME_INSTANCE()->GetLevelManager()->GetMemoryManager()->GetMemoryPool() )
 
 UCLASS()
 class KCLIENT_API UKProjectGameInstance : public UGameInstance
@@ -26,5 +27,5 @@ private:
 	const UDataTable* characterTable = nullptr;
 	const UDataTable* skillPropertyTable = nullptr;
 	const UDataTable* monsterStatTable = nullptr;
-	const class ALevelManager* pLevelManager = nullptr;
+	const ALevelManager* pLevelManager = nullptr;
 };

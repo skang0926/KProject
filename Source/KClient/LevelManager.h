@@ -4,6 +4,7 @@
 
 #include "KClient.h"
 #include "GameFramework/Actor.h"
+#include "MemoryManager.h"
 #include "LevelManager.generated.h"
 
 UCLASS()
@@ -29,12 +30,15 @@ private:
 private:
 
 	UPROPERTY()
-	class UMemoryManager* memoryManager;
+	UMemoryManager* memoryManager;
 
 
 	//메모리 풀 테스트 코드
 	UPROPERTY(EditAnywhere)
 	int32 monsterMax;
+
+	UPROPERTY(EditAnywhere)
+		bool bMemoryPoolTest;
 
 	int32 monsterNum;
 	FTimerHandle timer;
