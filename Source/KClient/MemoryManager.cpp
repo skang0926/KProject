@@ -3,94 +3,76 @@
 
 #include "MemoryManager.h"
 
+////////////////////////////////////////////////// MemoryPool Func
+
+
 UMemoryManager::UMemoryManager()
 {
 
 }
 
-void UMemoryManager::Initialize(int32 memoryPoolSize)
+void UMemoryManager::CreateMemoryPool(int32 memoryPoolSize, EMemoryBlock blockType)
 {
-	memoryPool.Initialize(memoryPoolSize);
-}
-
-
-MemoryPool* UMemoryManager::GetMemoryPool()
-{
-	return &memoryPool;
-}
-
-
-
-/////////////////////////////////////////////////// MemoryPool Func
-
-
-// memoryIndex = memory's index in memory pool
-// arrIndex = indexArray's index
-// indexTable's Key - Value is memoryIndex - arrIndex
-
-// indexArray's value = memory's index = indexTable's Key
-// indexTable's value = index array's index
-
-
-MemoryPool::MemoryPool()
-{
-
-}
-
-MemoryPool::~MemoryPool()
-{
-	UE_LOG(LogClass, Warning, TEXT("Destruction Test"));
-	if (memoryPool != nullptr)
-		delete[] memoryPool;
-}
-
-void MemoryPool::Initialize(int32 size)
-{
-	memoryPool = new FNodeMemory64[size];
-	memoryPoolSize = size;
-	for (int32 i = 0; i < size; ++i)
+	switch (blockType)
 	{
-		indexTable.Add(i, i);
-		indexArray.Add(i);
+	case EMemoryBlock::BLOCK64:
+		if (memoryPool64 == nullptr)
+			memoryPool64 = new MemoryPool<FMemoryBlock64>(memoryPoolSize);
+		break;
+	case EMemoryBlock::BLOCK128:
+		if (memoryPool128 == nullptr)
+			memoryPool128 = new MemoryPool<FMemoryBlock128>(memoryPoolSize);
+		break;
+	case EMemoryBlock::BLOCK256:
+		if (memoryPool256 == nullptr)
+			memoryPool256 = new MemoryPool<FMemoryBlock256>(memoryPoolSize);
+		break;
+	default:
+		UE_LOG(KP, Error, TEXT("Non exist type"));
+		break;
 	}
-	offset = 0;
+}
+
+void UMemoryManager::FreeMemoryPool()
+{
+	if(memoryPool64 != nullptr)
+		delete memoryPool64;
+
+	if (memoryPool128 != nullptr)
+		delete memoryPool128;
+
+	if (memoryPool256 != nullptr)
+		delete memoryPool256;
 }
 
 
-void* MemoryPool::Alloc()
+MemoryPool<FMemoryBlock64>* UMemoryManager::GetMemoryPool64() const
 {
-	if (offset >= memoryPoolSize || offset < 0)
+	if (memoryPool64 == nullptr)
+	{
+		UE_LOG(KP, Error, TEXT("MemoryPool64 is non-existent"));
 		return nullptr;
-
-	int32 memoryIndex = indexArray[offset++];
-
-	void* memory = reinterpret_cast<void*>(&memoryPool[memoryIndex]);
-	return memory;
+	}
+	return memoryPool64;
 }
 
-void MemoryPool::Free(void* memory)
+MemoryPool<FMemoryBlock128>* UMemoryManager::GetMemoryPool128() const
 {
-	if (memory == nullptr || offset == 0) return;
-
-	FNodeMemory64* memoryPtr = reinterpret_cast<FNodeMemory64*>(memory);
-	int32 memoryIndex = memoryPtr - &memoryPool[0];
-
-	if (memoryIndex >= memoryPoolSize && memoryIndex < 0)
-		return;
-
-	int32 arrIndex = indexTable[memoryIndex];
-
-
-	//Array에서 메모리의 위치 변경
-	--offset;
-	int32 temp = indexArray[arrIndex];
-	indexArray[arrIndex] = indexArray[offset];
-	indexArray[offset] = temp;
-
-
-	//IndexTable 값 변경
-	indexTable[memoryIndex] = offset;
-	indexTable[indexArray[arrIndex]] = arrIndex;
-
-	return;
+	if (memoryPool128 == nullptr)
+	{
+		UE_LOG(KP, Error, TEXT("MemoryPool128 is non-existent"));
+		return nullptr;
+	}
+	return memoryPool128;
 }
+
+MemoryPool<FMemoryBlock256>* UMemoryManager::GetMemoryPool256() const
+{
+	if (memoryPool256 == nullptr)
+	{
+		UE_LOG(KP, Error, TEXT("MemoryPool256 is non-existent"));
+		return nullptr;
+	}
+	return memoryPool256;
+}
+

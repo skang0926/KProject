@@ -9,7 +9,7 @@
 #include "KProjectGameInstance.generated.h"
 
 #define GAME_INSTANCE() ( dynamic_cast<UKProjectGameInstance*>( this->GetWorld()->GetGameInstance() ) )
-#define MEMORY_POOL_64() ( GAME_INSTANCE()->GetLevelManager()->GetMemoryManager()->GetMemoryPool() )
+
 
 UCLASS()
 class KCLIENT_API UKProjectGameInstance : public UGameInstance
@@ -21,11 +21,10 @@ public:
 	const struct FCharacterTable* const GetCharacterTableRow(const FName& characterName);
 	const struct FSkillProperty* const GetSkillTableRow(const FName& skillName);
 	const struct FMonsterStat* const GetMonsterStatTableRow(const FName& monsterName);
-	const class ALevelManager* const GetLevelManager();
-	void SetLevelManager(ALevelManager* const levelManager);
+
 private:
 	const UDataTable* characterTable = nullptr;
 	const UDataTable* skillPropertyTable = nullptr;
 	const UDataTable* monsterStatTable = nullptr;
-	const ALevelManager* pLevelManager = nullptr;
 };
+

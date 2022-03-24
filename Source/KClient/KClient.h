@@ -40,6 +40,7 @@
 #include "BasicType.h"
 
 #include "KProjectGameInstance.h"
+#include "KClientGameState.h"
 
 #include "SkillBase.h"
 

@@ -4,36 +4,8 @@
 
 #include "KClient.h"
 #include "UObject/NoExportTypes.h"
+#include "MemoryPool.h"
 #include "MemoryManager.generated.h"
-
-/**
- * 
- */
-
-struct FNodeMemory64
-{
-	TCHAR buffer[32]; // 64byte
-};
-
-class MemoryPool
-{
-public:
-	MemoryPool();
-	~MemoryPool();
-	void Initialize(int32 num);
-
-	void* Alloc();
-	void Free(void* memory);
-
-private:
-	FNodeMemory64* memoryPool = nullptr;
-
-	//Key : memory's index in memory pool, Value : arrIndex
-	TMap<int32, int32> indexTable;
-	TArray<int32> indexArray;
-	int32 offset;
-	int32 memoryPoolSize;
-};
 
 
 UCLASS()
@@ -44,9 +16,15 @@ class KCLIENT_API UMemoryManager : public UObject
 
 public:
 	UMemoryManager();
-	void Initialize(int32 memoryPoolSize);
-	MemoryPool* GetMemoryPool();
+	void CreateMemoryPool(int32 memoryPoolSize, EMemoryBlock blockType);
+	void FreeMemoryPool();
+
+	MemoryPool<FMemoryBlock64>* GetMemoryPool64() const;
+	MemoryPool<FMemoryBlock128>* GetMemoryPool128() const;
+	MemoryPool<FMemoryBlock256>* GetMemoryPool256() const;
 
 private:
-	MemoryPool memoryPool;
+	MemoryPool<FMemoryBlock64>* memoryPool64 = nullptr;
+	MemoryPool<FMemoryBlock128>* memoryPool128 = nullptr;
+	MemoryPool<FMemoryBlock256>* memoryPool256 = nullptr;
 };

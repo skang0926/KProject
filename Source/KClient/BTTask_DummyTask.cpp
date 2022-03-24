@@ -7,7 +7,9 @@
 #include "MonsterAIController.h"
 #include "LevelManager.h"
 #include "KProjectGameInstance.h"
+#include "KClientGameState.h"
 #include "TestMonster.h"
+
 
 UBTTask_DummyTask::UBTTask_DummyTask()
 {
@@ -27,11 +29,16 @@ EBTNodeResult::Type UBTTask_DummyTask::ExecuteTask(UBehaviorTreeComponent& owner
 
 	FBTDummyNode* memory;
 
-	if(bMemoryPoolUse)
+	if (bMemoryPoolUse)
 		memory = reinterpret_cast<FBTDummyNode*>(MEMORY_POOL_64()->Alloc());
 	else
 		memory = new FBTDummyNode;
 
+	if (memory == nullptr)
+	{
+		UE_LOG(KP, Error, TEXT("Allocation memory is none"));
+		return EBTNodeResult::Failed;
+	}
 	memory->fowardMoveValue = (rand() % 3) - 1;
 	memory->rightMoveValue = (rand() % 3) - 1;
 	memory->remainTime = defaultTaskTime + (rand() % 3) - 1;

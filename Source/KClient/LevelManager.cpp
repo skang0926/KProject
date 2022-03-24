@@ -4,7 +4,7 @@
 #include "LevelManager.h"
 #include "MemoryManager.h"
 #include "TestMonster.h"
-#include "KProjectGameInstance.h"
+#include "KClientGameState.h"
 
 // Sets default values
 ALevelManager::ALevelManager()
@@ -22,15 +22,22 @@ void ALevelManager::BeginPlay()
 	Super::BeginPlay();
 	
 	memoryManager = NewObject<UMemoryManager>(this);
-	memoryManager->Initialize(monsterMax);
+	memoryManager->CreateMemoryPool(monsterMax, EMemoryBlock::BLOCK64);
 
 	// 메모리풀 테스트 코드
 
-	GAME_INSTANCE()->SetLevelManager(this);
+	GAME_STATE()->SetLevelManager(this);
 
 
 	if(bMemoryPoolTest)
 		GetWorldTimerManager().SetTimer(timer, this, &ALevelManager::SpawnMonster, 1.f, true, 0.1f);
+}
+
+void ALevelManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	memoryManager->FreeMemoryPool();
+
+	return;
 }
 
 void ALevelManager::SpawnMonster()

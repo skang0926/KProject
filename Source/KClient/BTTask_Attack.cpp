@@ -6,6 +6,7 @@
 #include "MonsterBase.h"
 #include "BasicType.h"
 #include "MonsterAIController.h"
+#include "KClientGameState.h"
 
 UBTTask_Attack::UBTTask_Attack()
 {
@@ -38,6 +39,12 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& ownerCom
 	AMonsterAIController* ownerController = dynamic_cast<AMonsterAIController*>(ownerMonster->GetController());
 
 	FBTAttackNodeMemory* memory = reinterpret_cast<FBTAttackNodeMemory*>(MEMORY_POOL_64()->Alloc());
+	if (memory == nullptr)
+	{
+		UE_LOG(KP, Error, TEXT("Allocation memory is none"));
+		return EBTNodeResult::Failed;;
+	}
+
 
 	FTimerDelegate timerDelegate(FTimerDelegate::CreateUObject
 		<UBTTask_Attack, FBTAttackNodeMemory*>
