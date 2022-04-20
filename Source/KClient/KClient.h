@@ -31,10 +31,7 @@
 #include <string>
 
 /////////////// COMMON ///////////////
-#include "Common/Utility.h"
-
-#include "Common/Lang/String.h"
-#include "Common/Lang/StringTable.h"
+#include "../PathLoader/PathTable.h"
 
 /////////////// Implement ///////////
 #include "BasicType.h"

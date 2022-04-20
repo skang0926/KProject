@@ -9,6 +9,6 @@ public class KClientEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.AddRange( new string[] { "KClient" } );
+		ExtraModuleNames.AddRange( new string[] { "PathLoader", "KClient" });
 	}
 }

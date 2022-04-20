@@ -35,69 +35,64 @@ template <typename T>
 class KCLIENT_API MemoryPool
 {
 public:
-	MemoryPool(int32 memoryPoolSize);
+	MemoryPool(int32 size);
 	~MemoryPool();
 
 	void* Alloc();
 	void Free(void* memory);
 
 private:
-	T* memoryPool = nullptr;
-
-	TDoubleLinkedList<int32> availableMemoryList;
-	int32 memoryPoolSize;
+	uint8* pivot = nullptr;
+	uint8* memoryPoolPtr = nullptr;
 };
-
-
 
 template <typename T>
 MemoryPool<T>::MemoryPool(int32 memoryPoolSize)
 {
-	memoryPool = new T[memoryPoolSize];
-	memoryPoolSize = memoryPoolSize;
-	for (int32 i = 0; i < memoryPoolSize; ++i)
+	memoryPoolPtr = new uint8[sizeof(T) * memoryPoolSize];
+	pivot = memoryPoolPtr;
+
+	uint8** cur = reinterpret_cast<uint8**>(memoryPoolPtr);
+	uint8* next = memoryPoolPtr;
+
+	for (int32 i = 0; i < memoryPoolSize - 1; ++i)
 	{
-		availableMemoryList.AddHead(i);
+		next += sizeof(T);
+		*cur = next;
+		cur = reinterpret_cast<uint8**>(next);
 	}
+
+	*cur = nullptr;
 }
 
 
 template <typename T>
 MemoryPool<T>::~MemoryPool()
 {
-	if (memoryPool != nullptr)
-		delete[] memoryPool;
+	if (memoryPoolPtr != nullptr)
+		delete[] memoryPoolPtr;
 }
 
 template <typename T>
 void* MemoryPool<T>::Alloc()
 {
-	if (availableMemoryList.Num() == 0)
+	if (pivot == nullptr)
 	{
-		UE_LOG(KP, Error, TEXT("Memory pool is full "));
+		UE_LOG(KP, Error, TEXT("memory pool is full"));
 		return nullptr;
 	}
 
-	auto headNode = availableMemoryList.GetHead();
-	int32 memoryIndex = headNode->GetValue();
-
-	void* memory = reinterpret_cast<void*>(&memoryPool[memoryIndex]);
-	availableMemoryList.RemoveNode(headNode);
-
-	return memory;
+	uint8* memoryPtr = pivot + sizeof(uint8*);
+	pivot = *reinterpret_cast<uint8**>(pivot);
+	return reinterpret_cast<void*>(memoryPtr);
 }
 
 template <typename T>
 void MemoryPool<T>::Free(void* memory)
 {
-	T* memoryPtr = reinterpret_cast<T*>(memory);
-	int32 memoryIndex = memoryPtr - &memoryPool[0];
+	uint8** freeMemory = reinterpret_cast<uint8**>(memory) - 1;
+	*freeMemory = pivot;
+	pivot = reinterpret_cast<uint8*>(freeMemory);
 
-	if (memoryIndex >= memoryPoolSize && memoryIndex < 0)
-	{
-		UE_LOG(KP, Error, TEXT("Invalid access to memory pool"))
-		return;
-	}
-	availableMemoryList.AddHead(memoryIndex);
 	return;
 }

@@ -9,6 +9,6 @@ public class KClientTarget : TargetRules
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.AddRange( new string[] { "KClient" } );
+		ExtraModuleNames.AddRange( new string[] { "PathLoader", "KClient" } );
 	}
 }

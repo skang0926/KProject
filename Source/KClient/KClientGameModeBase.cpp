@@ -1,5 +1,4 @@
 #include "KClientGameModeBase.h"
-#include "Common/Common.h"
 #include "Blueprint/UserWidget.h"
 #include "PlayerCharacter.h"
 
@@ -11,7 +10,7 @@ AKClientGameModeBase::AKClientGameModeBase()
 
     DefaultPawnClass = APlayerCharacter::StaticClass();
 
-    StringTable::GetInstance().Load();
+    PathTable::GetInstance().Load();
 }
 
 void AKClientGameModeBase::BeginPlay()

@@ -5,7 +5,6 @@
 #include "KClient.h"
 #include "Engine/DataTable.h"
 #include "UObject/NoExportTypes.h"
-#include "Common/Lang/String.h"
 #include "CharacterDataTable.generated.h"
 
 
