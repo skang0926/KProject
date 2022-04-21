@@ -38,7 +38,7 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& ownerCom
 
 	AMonsterAIController* ownerController = dynamic_cast<AMonsterAIController*>(ownerMonster->GetController());
 
-	FBTAttackNodeMemory* memory = reinterpret_cast<FBTAttackNodeMemory*>(MEMORY_POOL_64()->Alloc());
+	FBTAttackNodeMemory* memory = reinterpret_cast<FBTAttackNodeMemory*>(MEMORY_POOL_64()->Alloc(sizeof(FBTAttackNodeMemory)));
 	if (memory == nullptr)
 	{
 		UE_LOG(KP, Error, TEXT("Allocation memory is none"));

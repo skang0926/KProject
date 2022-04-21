@@ -30,7 +30,7 @@ EBTNodeResult::Type UBTTask_DummyTask::ExecuteTask(UBehaviorTreeComponent& owner
 	FBTDummyNode* memory;
 
 	if (bMemoryPoolUse)
-		memory = reinterpret_cast<FBTDummyNode*>(MEMORY_POOL_64()->Alloc());
+		memory = reinterpret_cast<FBTDummyNode*>(MEMORY_POOL_64()->Alloc(sizeof(FBTDummyNode)));
 	else
 		memory = new FBTDummyNode;
 
